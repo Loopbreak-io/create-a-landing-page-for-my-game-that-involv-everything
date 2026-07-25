@@ -20,6 +20,7 @@ export default function Hero() {
   const [secondaryHover, setSecondaryHover] = useState(false);
   const [panelHover, setPanelHover] = useState(false);
   const [hoveredTag, setHoveredTag] = useState(null);
+  const [headlineHover, setHeadlineHover] = useState(false);
   const bounce = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
   return (
@@ -121,6 +122,8 @@ export default function Hero() {
           </div>
 
           <h1
+            onMouseEnter={() => setHeadlineHover(true)}
+            onMouseLeave={() => setHeadlineHover(false)}
             style={{
               fontSize: 'clamp(42px, 6vw, 74px)',
               fontWeight: 900,
@@ -129,16 +132,31 @@ export default function Hero() {
               color: '#f4eee2',
               margin: '0 0 22px',
               textShadow: '0 6px 30px rgba(0,0,0,0.6)',
+              cursor: 'default',
+              display: 'inline-block',
+              transform: headlineHover ? 'rotate(-1.5deg) scale(1.03)' : 'rotate(0deg) scale(1)',
+              transition: `transform 0.5s ${bounce}`,
             }}
           >
-            Sharpen the flint.
+            <span
+              style={{
+                display: 'inline-block',
+                transform: headlineHover ? 'translateY(-6px) rotate(2deg)' : 'translateY(0) rotate(0deg)',
+                transition: `transform 0.45s ${bounce}`,
+              }}
+            >
+              Sharpen the flint.
+            </span>
             <br />
             <span
               style={{
+                display: 'inline-block',
                 background: 'linear-gradient(100deg, #f0a94a 0%, #d98a2b 45%, #c1462a 100%)',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                transform: headlineHover ? 'translateY(4px) rotate(-2deg) scale(1.05)' : 'translateY(0) rotate(0deg) scale(1)',
+                transition: `transform 0.5s ${bounce} 0.05s`,
               }}
             >
               Own the kill.
