@@ -131,7 +131,6 @@ export default function Navbar() {
                 transform: hoveredLink === link.id ? 'translateY(-2px)' : 'translateY(0)',
                 transition: 'all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)',
               }}
-<<<REPLACE_END_MARKER>>>
             >
               {link.label}
             </a>
