@@ -18,6 +18,9 @@ const EMBERS = [
 export default function Hero() {
   const [primaryHover, setPrimaryHover] = useState(false);
   const [secondaryHover, setSecondaryHover] = useState(false);
+  const [panelHover, setPanelHover] = useState(false);
+  const [hoveredTag, setHoveredTag] = useState(null);
+  const bounce = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
   return (
     <section
@@ -269,14 +272,23 @@ export default function Hero() {
           }}
         >
           <div
+            onMouseEnter={() => setPanelHover(true)}
+            onMouseLeave={() => setPanelHover(false)}
             style={{
               position: 'relative',
               padding: '26px',
-              background: 'linear-gradient(160deg, #241e17 0%, #17130f 100%)',
-              border: '1px solid rgba(232,220,196,0.14)',
+              background: panelHover
+                ? 'linear-gradient(160deg, #2e2519 0%, #1a150f 100%)'
+                : 'linear-gradient(160deg, #241e17 0%, #17130f 100%)',
+              border: '1px solid',
+              borderColor: panelHover ? 'rgba(240,169,74,0.5)' : 'rgba(232,220,196,0.14)',
               borderRadius: '10px',
-              boxShadow: '0 32px 70px rgba(0,0,0,0.65), inset 0 1px 0 rgba(232,220,196,0.08)',
-              animation: 'drift 9s ease-in-out infinite',
+              boxShadow: panelHover
+                ? '0 40px 84px rgba(0,0,0,0.7), 0 0 0 1px rgba(240,169,74,0.22), inset 0 1px 0 rgba(232,220,196,0.12)'
+                : '0 32px 70px rgba(0,0,0,0.65), inset 0 1px 0 rgba(232,220,196,0.08)',
+              transform: panelHover ? 'translateY(-10px) scale(1.015)' : 'translateY(0) scale(1)',
+              transition: `transform 0.45s ${bounce}, box-shadow 0.35s ease, background 0.35s ease, border-color 0.35s ease`,
+              animation: panelHover ? 'none' : 'drift 9s ease-in-out infinite',
             }}
           >
             <div
@@ -292,7 +304,9 @@ export default function Hero() {
                   fontSize: '11px',
                   letterSpacing: '0.24em',
                   textTransform: 'uppercase',
-                  color: '#a99a80',
+                  color: panelHover ? '#c9b895' : '#a99a80',
+                  transform: panelHover ? 'translateY(-3px)' : 'translateY(0)',
+                  transition: `transform 0.4s ${bounce}, color 0.3s ease`,
                 }}
               >
                 Relic inspection
@@ -302,7 +316,9 @@ export default function Hero() {
                   fontSize: '11px',
                   fontWeight: 700,
                   letterSpacing: '0.14em',
-                  color: '#a8c088',
+                  color: panelHover ? '#bcd89a' : '#a8c088',
+                  transform: panelHover ? 'translateY(-3px)' : 'translateY(0)',
+                  transition: `transform 0.4s ${bounce} 0.04s, color 0.3s ease`,
                 }}
               >
                 ON-CHAIN · VERIFIED
@@ -331,7 +347,19 @@ export default function Hero() {
                     'conic-gradient(from 210deg at 50% 120%, rgba(217,138,43,0.28), transparent 40%)',
                 }}
               />
-              <svg width="150" height="190" viewBox="0 0 150 190" fill="none">
+              <svg
+                width="150"
+                height="190"
+                viewBox="0 0 150 190"
+                fill="none"
+                style={{
+                  position: 'relative',
+                  transform: panelHover
+                    ? 'translateY(-8px) rotate(-3deg) scale(1.05)'
+                    : 'translateY(0) rotate(0deg) scale(1)',
+                  transition: `transform 0.55s ${bounce}`,
+                }}
+              >
                 <polygon points="75,8 96,52 75,74 54,52" fill="#cfc3a6" stroke="#8a7c60" strokeWidth="2" />
                 <polygon points="75,8 96,52 75,74" fill="#a99a80" />
                 <rect x="70" y="70" width="10" height="112" fill="#6b4f30" stroke="#4a3620" strokeWidth="2" />
@@ -347,12 +375,22 @@ export default function Hero() {
                   fontFamily: "'Cinzel', Georgia, serif",
                   fontSize: '20px',
                   fontWeight: 700,
-                  color: '#f4eee2',
+                  color: panelHover ? '#f6b95c' : '#f4eee2',
+                  transform: panelHover ? 'translateY(-4px)' : 'translateY(0)',
+                  transition: `transform 0.45s ${bounce} 0.05s, color 0.3s ease`,
                 }}
               >
                 Ashthrower of the Reed Clan
               </div>
-              <div style={{ fontSize: '13px', color: '#a99a80', marginTop: '4px' }}>
+              <div
+                style={{
+                  fontSize: '13px',
+                  color: panelHover ? '#c1b394' : '#a99a80',
+                  marginTop: '4px',
+                  transform: panelHover ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: `transform 0.45s ${bounce} 0.1s, color 0.3s ease`,
+                }}
+              >
                 Fire-hardened ash shaft · flint tip · sinew wrap · 3 kills from tempering
               </div>
               <div
@@ -363,18 +401,31 @@ export default function Hero() {
                   marginTop: '16px',
                 }}
               >
-                {['Throw +14%', 'Durability 71/100', 'Tribe-bound', 'Tradeable'].map((tag) => (
+                {['Throw +14%', 'Durability 71/100', 'Tribe-bound', 'Tradeable'].map((tag, tagIndex) => (
                   <span
                     key={tag}
+                    onMouseEnter={() => setHoveredTag(tag)}
+                    onMouseLeave={() => setHoveredTag(null)}
                     style={{
                       padding: '5px 10px',
                       fontSize: '11px',
                       fontWeight: 700,
                       letterSpacing: '0.08em',
-                      color: '#e8dcc4',
-                      background: 'rgba(232,220,196,0.07)',
-                      border: '1px solid rgba(232,220,196,0.16)',
+                      color: hoveredTag === tag ? '#1a1409' : '#e8dcc4',
+                      background:
+                        hoveredTag === tag ? '#f0a94a' : 'rgba(232,220,196,0.07)',
+                      border: '1px solid',
+                      borderColor:
+                        hoveredTag === tag ? 'rgba(240,169,74,0.9)' : 'rgba(232,220,196,0.16)',
                       borderRadius: '2px',
+                      cursor: 'default',
+                      transform:
+                        hoveredTag === tag
+                          ? 'translateY(-5px) scale(1.06)'
+                          : panelHover
+                          ? 'translateY(-3px)'
+                          : 'translateY(0)',
+                      transition: `transform 0.42s ${bounce} ${0.06 * tagIndex}s, background 0.25s ease, color 0.25s ease, border-color 0.25s ease`,
                     }}
                   >
                     {tag}

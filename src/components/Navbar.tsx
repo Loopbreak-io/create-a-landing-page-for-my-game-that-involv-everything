@@ -123,9 +123,15 @@ export default function Navbar() {
                 color: hoveredLink === link.id ? '#f0a94a' : '#ded3bf',
                 paddingBottom: '3px',
                 borderBottom:
-                  hoveredLink === link.id ? '1px solid #f0a94a' : '1px solid transparent',
-                transition: 'all 0.2s ease',
+                  hoveredLink === link.id ? '2px solid #f0a94a' : '2px solid transparent',
+                textDecoration: hoveredLink === link.id ? 'underline' : 'none',
+                textDecorationColor: '#f0a94a',
+                textUnderlineOffset: '4px',
+                textDecorationThickness: '2px',
+                transform: hoveredLink === link.id ? 'translateY(-2px)' : 'translateY(0)',
+                transition: 'all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)',
               }}
+<<<REPLACE_END_MARKER>>>
             >
               {link.label}
             </a>
